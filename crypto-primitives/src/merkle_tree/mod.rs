@@ -383,15 +383,15 @@ fn select_left_right_child<L: Clone>(
 pub struct MerkleTree<P: Config> {
     /// stores the non-leaf nodes in level order. The first element is the root node.
     /// The ith nodes (starting at 1st) children are at indices `2*i`, `2*i+1`
-    non_leaf_nodes: Vec<P::InnerDigest>,
+    pub non_leaf_nodes: Vec<P::InnerDigest>,
     /// store the hash of leaf nodes from left to right
-    leaf_nodes: Vec<P::LeafDigest>,
+    pub leaf_nodes: Vec<P::LeafDigest>,
     /// Store the inner hash parameters
     two_to_one_hash_param: TwoToOneParam<P>,
     /// Store the leaf hash parameters
     leaf_hash_param: LeafParam<P>,
     /// Stores the height of the MerkleTree
-    height: usize,
+    pub height: usize,
 }
 
 impl<P: Config> MerkleTree<P> {
