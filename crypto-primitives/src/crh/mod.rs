@@ -1,8 +1,11 @@
 #![allow(clippy::upper_case_acronyms)]
+use std::sync::atomic::{AtomicUsize, Ordering};
+
 use crate::Error;
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use ark_std::{borrow::Borrow, fmt::Debug, hash::Hash, rand::Rng};
 
+pub mod blake3;
 pub mod bowe_hopwood;
 #[cfg(feature = "r1cs")]
 pub mod constraints;
@@ -48,4 +51,23 @@ pub trait TwoToOneCRHScheme {
         left_input: T,
         right_input: T,
     ) -> Result<Self::Output, Error>;
+}
+
+#[derive(Debug, Default)]
+pub struct HashCounter;
+
+static HASH_COUNTER: AtomicUsize = AtomicUsize::new(0);
+
+impl HashCounter {
+    pub(crate) fn add() -> usize {
+        HASH_COUNTER.fetch_add(1, Ordering::SeqCst)
+    }
+
+    pub fn reset() {
+        HASH_COUNTER.store(0, Ordering::SeqCst);
+    }
+
+    pub fn get() -> usize {
+        HASH_COUNTER.load(Ordering::SeqCst)
+    }
 }
