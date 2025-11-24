@@ -385,7 +385,7 @@ pub struct MerkleTree<P: Config> {
     /// The ith nodes (starting at 1st) children are at indices `2*i`, `2*i+1`
     non_leaf_nodes: Vec<P::InnerDigest>,
     /// store the hash of leaf nodes from left to right
-    leaf_nodes: Vec<P::LeafDigest>,
+    pub leaf_nodes: Vec<P::LeafDigest>,
     /// Store the inner hash parameters
     two_to_one_hash_param: TwoToOneParam<P>,
     /// Store the leaf hash parameters
